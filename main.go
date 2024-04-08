@@ -1,9 +1,13 @@
 package main
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/go-admin-team/go-admin-core/sdk/config"
 	"go-admin/cmd"
+	"os"
+	"os/signal"
+	"syscall"
 	"time"
 )
 
@@ -22,6 +26,13 @@ import (
 func main() {
 
 	go cmd.Execute()
+	sigs := make(chan os.Signal, 1)
+	signal.Notify(sigs, syscall.SIGINT, syscall.SIGTERM)
+	go func() {
+		sig := <-sigs
+		fmt.Println(sig.String())
+		os.Exit(0)
+	}()
 
 	time.Sleep(3 * time.Second)
 	// 生成静态文件服务
