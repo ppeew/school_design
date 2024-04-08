@@ -296,7 +296,11 @@ func (e User) Upload(c *gin.Context) {
 	// 将文件名进行 URL 编码
 	filename := url.QueryEscape(header.Filename)
 
-	url := fmt.Sprintf("http://%s:8888/images/%s", config.ApplicationConfig.Host, filename)
+	ip := "139.159.234.134"
+	if config.ApplicationConfig.Mode == "dev" {
+		ip = "127.0.0.1"
+	}
+	url := fmt.Sprintf("http://%s:8888/images/%s", ip, filename)
 
 	// 从请求中读取上传的文件
 	get := c.Query("type")
