@@ -73,9 +73,12 @@ func (e Collects) GetPage(c *gin.Context) {
 		e.Orm.Model(models.Comments{}).Where("blog_id=?", collects.BlogId).Count(&commentTotal)
 		var collectTotal int64
 		e.Orm.Model(models.Collects{}).Where("blog_id=?", collects.BlogId).Count(&collectTotal)
+		if u.Image == "" {
+			u.Image = "https://th.bing.com/th/id/R.ec214a16a4b823260966fdb7b09eddff?rik=ivXWTf6iBDSAsg&riu=http%3a%2f%2fpic2.nipic.com%2f20090429%2f984755_194557035_2.jpg&ehk=u7%2bUd79GB72em%2b7h%2bdvk6exyLNUKzpSdUpeA8DWRn2s%3d&risl=&pid=ImgRaw&r=0"
+		}
 
 		resp = append(resp, ss{
-			BlogID:      collects.Id,
+			BlogID:      blog.Id,
 			Username:    u.Username,
 			BlogTime:    blog.CreatedAt.Format(time.DateTime),
 			Image:       u.Image,
