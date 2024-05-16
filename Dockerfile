@@ -37,7 +37,7 @@ ENV TZ Asia/Shanghai
 
 WORKDIR /app
 COPY --from=builder /app/my_app /app/my_app
-COPY --from=builder ./config/settings.demo.yml /config/settings.yml
-COPY --from=builder ./go-admin-db.db /go-admin-db.db
+COPY --from=builder /app/config/settings.demo.yml /config/settings.yml
+COPY --from=builder /app/go-admin-db.db /go-admin-db.db
 
 CMD ["./my_app","server","-c", "/config/settings.yml"]
