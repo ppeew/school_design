@@ -20,7 +20,8 @@ services:
     privileged: true
     restart: always
     ports:
-      - 8000:8000
+      - 8001:8001
+      - 8888:8888
     volumes:
       - ./config/:/pet_service/config/
       - ./static/:/pet_service/static/
