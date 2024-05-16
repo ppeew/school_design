@@ -15,7 +15,7 @@
 #RUN  chmod +x /main
 #CMD ["/main","server","-c", "/config/settings.yml"]
 
-FROM golang:1.20-alpine AS builder
+FROM golang:1.21-alpine AS builder
 
 LABEL stage=gobuilder
 

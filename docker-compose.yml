@@ -1,18 +1,18 @@
 version: '3.8'
 services:
-  mysql:
-    image: mysql:5.7
-    container_name: mysql
-    ports:
-      - "3306:3306"
-    environment:
-      MYSQL_ROOT_PASSWORD: "518888"
-    volumes:
-      - "/docker/mysql/conf:/etc/mysql/conf.d"
-      - "/docker/mysql/data:/var/lib/mysql"
-    restart: always
-    networks:
-      - pet_web
+#  mysql:
+#    image: mysql:5.7
+#    container_name: mysql
+#    ports:
+#      - "3306:3306"
+#    environment:
+#      MYSQL_ROOT_PASSWORD: "518888"
+#    volumes:
+#      - "/docker/mysql/conf:/etc/mysql/conf.d"
+#      - "/docker/mysql/data:/var/lib/mysql"
+#    restart: always
+#    networks:
+#      - pet_web
 
   pet_service:
     container_name: pet_service
