@@ -40,4 +40,4 @@ COPY --from=builder /app/my_app /app/my_app
 COPY --from=builder ./config/settings.demo.yml /config/settings.yml
 COPY --from=builder ./go-admin-db.db /go-admin-db.db
 
-CMD ["/my_app","server","-c", "/config/settings.yml"]
+CMD ["./my_app","server","-c", "/config/settings.yml"]
