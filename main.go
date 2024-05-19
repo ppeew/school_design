@@ -42,6 +42,7 @@ func main() {
 	if config.ApplicationConfig.Mode == "dev" {
 		dir = "D:/images/"
 	}
+	os.MkdirAll(dir, os.ModeDir)
 	r.Static("/images", dir)
 
 	r.Run(":8888")

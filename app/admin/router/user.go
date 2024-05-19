@@ -2,26 +2,26 @@ package router
 
 import (
 	"github.com/gin-gonic/gin"
+	jwt "github.com/go-admin-team/go-admin-core/sdk/pkg/jwtauth"
+
 	"go-admin/app/admin/apis"
+	"go-admin/common/middleware"
 	"go-admin/common/actions"
 )
 
 func init() {
-	routerNoCheckRole = append(routerNoCheckRole, registerUserRouter)
+	routerCheckRole = append(routerCheckRole, registerUserRouter)
 }
 
 // registerUserRouter
-func registerUserRouter(v1 *gin.RouterGroup) {
+func registerUserRouter(v1 *gin.RouterGroup, authMiddleware *jwt.GinJWTMiddleware) {
 	api := apis.User{}
-	r := v1.Group("/user")
+	r := v1.Group("/user").Use(authMiddleware.MiddlewareFunc()).Use(middleware.AuthCheckRole())
 	{
 		r.GET("", actions.PermissionAction(), api.GetPage)
 		r.GET("/:id", actions.PermissionAction(), api.Get)
+		r.POST("", api.Insert)
 		r.PUT("/:id", actions.PermissionAction(), api.Update)
 		r.DELETE("", api.Delete)
-		r.POST("", api.Insert) //注册
-		r.GET("/login", api.Login)
-
 	}
-	r.POST("upload", api.Upload)
 }

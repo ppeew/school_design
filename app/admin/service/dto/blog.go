@@ -6,12 +6,12 @@ import (
 	common "go-admin/common/models"
 )
 
-type BlogsGetPageReq struct {
+type Blogs2GetPageReq struct {
 	dto.Pagination `search:"-"`
 	BlogsOrder
 }
 
-type BlogsOrder struct {
+type Blogs2Order struct {
 	Id        string `form:"idOrder"  search:"type:order;column:id;table:blogs"`
 	CreatedAt string `form:"createdAtOrder"  search:"type:order;column:created_at;table:blogs"`
 	UpdatedAt string `form:"updatedAtOrder"  search:"type:order;column:updated_at;table:blogs"`
@@ -22,11 +22,11 @@ type BlogsOrder struct {
 	Collect   string `form:"collectOrder"  search:"type:order;column:collect;table:blogs"`
 }
 
-func (m *BlogsGetPageReq) GetNeedSearch() interface{} {
+func (m *Blogs2GetPageReq) GetNeedSearch() interface{} {
 	return *m
 }
 
-type BlogsInsertReq struct {
+type Blogs2InsertReq struct {
 	Id       int    `json:"-" comment:"主键编码"` // 主键编码
 	Username string `json:"username" comment:"用户名"`
 	Msg      string `json:"msg" comment:"信息"`
@@ -36,7 +36,7 @@ type BlogsInsertReq struct {
 	common.ControlBy
 }
 
-func (s *BlogsInsertReq) Generate(model *models.Blogs) {
+func (s *Blogs2InsertReq) Generate(model *models.Blogs) {
 	if s.Id == 0 {
 		model.Model = common.Model{Id: s.Id}
 	}
@@ -47,11 +47,11 @@ func (s *BlogsInsertReq) Generate(model *models.Blogs) {
 	model.Title = s.Title
 }
 
-func (s *BlogsInsertReq) GetId() interface{} {
+func (s *Blogs2InsertReq) GetId() interface{} {
 	return s.Id
 }
 
-type BlogsUpdateReq struct {
+type Blogs2UpdateReq struct {
 	Type     string `form:"type"`
 	Id       int    `uri:"id" comment:"主键编码"` // 主键编码
 	Username string `json:"username" comment:"用户名"`
@@ -61,7 +61,7 @@ type BlogsUpdateReq struct {
 	common.ControlBy
 }
 
-func (s *BlogsUpdateReq) Generate(model *models.Blogs) {
+func (s *Blogs2UpdateReq) Generate(model *models.Blogs) {
 	if s.Id == 0 {
 		model.Model = common.Model{Id: s.Id}
 	}
@@ -71,24 +71,24 @@ func (s *BlogsUpdateReq) Generate(model *models.Blogs) {
 	model.Collect = s.Collect
 }
 
-func (s *BlogsUpdateReq) GetId() interface{} {
+func (s *Blogs2UpdateReq) GetId() interface{} {
 	return s.Id
 }
 
 // BlogsGetReq 功能获取请求参数
-type BlogsGetReq struct {
+type Blogs2GetReq struct {
 	Id int `uri:"id"`
 }
 
-func (s *BlogsGetReq) GetId() interface{} {
+func (s *Blogs2GetReq) GetId() interface{} {
 	return s.Id
 }
 
 // BlogsDeleteReq 功能删除请求参数
-type BlogsDeleteReq struct {
+type Blogs2DeleteReq struct {
 	Ids []int `json:"ids"`
 }
 
-func (s *BlogsDeleteReq) GetId() interface{} {
+func (s *Blogs2DeleteReq) GetId() interface{} {
 	return s.Ids
 }

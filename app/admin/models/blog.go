@@ -2,7 +2,7 @@ package models
 
 import "go-admin/common/models"
 
-type Blogs struct {
+type Blogs2 struct {
 	models.Model
 
 	Username string `json:"username" gorm:"type:varchar(255);comment:用户名"`
@@ -14,20 +14,20 @@ type Blogs struct {
 	models.ControlBy
 }
 
-func (Blogs) TableName() string {
+func (Blogs2) TableName() string {
 	return "blogs"
 }
 
-func (e *Blogs) Generate() models.ActiveRecord {
+func (e *Blogs2) Generate() models.ActiveRecord {
 	o := *e
 	return &o
 }
 
-func (e *Blogs) GetId() interface{} {
+func (e *Blogs2) GetId() interface{} {
 	return e.Id
 }
 
-type Comments struct {
+type Comments2 struct {
 	models.Model
 
 	BlogId   string `json:"blogId" gorm:"type:int;comment:对应的博客"`
@@ -38,15 +38,15 @@ type Comments struct {
 	Content string
 }
 
-func (Comments) TableName() string {
+func (Comments2) TableName() string {
 	return "comments"
 }
 
-func (e *Comments) Generate() models.ActiveRecord {
+func (e *Comments2) Generate() models.ActiveRecord {
 	o := *e
 	return &o
 }
 
-func (e *Comments) GetId() interface{} {
+func (e *Comments2) GetId() interface{} {
 	return e.Id
 }

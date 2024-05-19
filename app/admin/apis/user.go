@@ -1,16 +1,7 @@
 package apis
 
 import (
-	"fmt"
-	"github.com/gin-gonic/gin/binding"
-	"github.com/go-admin-team/go-admin-core/sdk/config"
-	"github.com/gogf/gf/util/gconv"
-	"github.com/golang-jwt/jwt/v4"
-	"io"
-	"net/http"
-	"net/url"
-	"os"
-	"time"
+    "fmt"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-admin-team/go-admin-core/sdk/api"
@@ -37,18 +28,18 @@ type User struct {
 // @Router /api/v1/user [get]
 // @Security Bearer
 func (e User) GetPage(c *gin.Context) {
-	req := dto.UserGetPageReq{}
-	s := service.User{}
-	err := e.MakeContext(c).
-		MakeOrm().
-		Bind(&req).
-		MakeService(&s.Service).
-		Errors
-	if err != nil {
-		e.Logger.Error(err)
-		e.Error(500, err, err.Error())
-		return
-	}
+    req := dto.UserGetPageReq{}
+    s := service.User{}
+    err := e.MakeContext(c).
+        MakeOrm().
+        Bind(&req).
+        MakeService(&s.Service).
+        Errors
+   	if err != nil {
+   		e.Logger.Error(err)
+   		e.Error(500, err, err.Error())
+   		return
+   	}
 
 	p := actions.GetPermissionFromContext(c)
 	list := make([]models.User, 0)
@@ -57,7 +48,7 @@ func (e User) GetPage(c *gin.Context) {
 	err = s.GetPage(&req, p, &list, &count)
 	if err != nil {
 		e.Error(500, err, fmt.Sprintf("获取User失败，\r\n失败信息 %s", err.Error()))
-		return
+        return
 	}
 
 	e.PageOK(list, int(count), req.GetPageIndex(), req.GetPageSize(), "查询成功")
@@ -74,7 +65,7 @@ func (e User) GetPage(c *gin.Context) {
 func (e User) Get(c *gin.Context) {
 	req := dto.UserGetReq{}
 	s := service.User{}
-	err := e.MakeContext(c).
+    err := e.MakeContext(c).
 		MakeOrm().
 		Bind(&req).
 		MakeService(&s.Service).
@@ -90,10 +81,10 @@ func (e User) Get(c *gin.Context) {
 	err = s.Get(&req, p, &object)
 	if err != nil {
 		e.Error(500, err, fmt.Sprintf("获取User失败，\r\n失败信息 %s", err.Error()))
-		return
+        return
 	}
 
-	e.OK(object, "查询成功")
+	e.OK( object, "查询成功")
 }
 
 // Insert 创建User
@@ -107,50 +98,29 @@ func (e User) Get(c *gin.Context) {
 // @Router /api/v1/user [post]
 // @Security Bearer
 func (e User) Insert(c *gin.Context) {
-	req := dto.UserInsertReq{}
-	s := service.User{}
-	err := e.MakeContext(c).
-		MakeOrm().
-		Bind(&req).
-		MakeService(&s.Service).
-		Errors
-	if err != nil {
-		e.Logger.Error(err)
-		e.Error(500, err, err.Error())
-		return
-	}
+    req := dto.UserInsertReq{}
+    s := service.User{}
+    err := e.MakeContext(c).
+        MakeOrm().
+        Bind(&req).
+        MakeService(&s.Service).
+        Errors
+    if err != nil {
+        e.Logger.Error(err)
+        e.Error(500, err, err.Error())
+        return
+    }
 	// 设置创建人
 	req.SetCreateBy(user.GetUserId(c))
 
 	err = s.Insert(&req)
 	if err != nil {
 		e.Error(500, err, fmt.Sprintf("创建User失败，\r\n失败信息 %s", err.Error()))
-		return
+        return
 	}
 
-	//生成token  设置过期时间为1小时
-	expirationTime := time.Now().Add(24 * time.Hour)
-
-	// 创建JWT的声明
-	claims := &jwt.StandardClaims{
-		ExpiresAt: expirationTime.Unix(),
-		IssuedAt:  time.Now().Unix(),
-		Subject:   gconv.String(req.GetId()),
-	}
-
-	// 创建JWT并设置声明
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-
-	// 使用密钥签名JWT
-	tokenString, _ := token.SignedString(jwtKey)
-
-	e.OK(gin.H{
-		"id":    req.GetId(),
-		"token": tokenString,
-	}, "创建成功")
+	e.OK(req.GetId(), "创建成功")
 }
-
-var jwtKey = []byte("my_jwt_claims")
 
 // Update 修改User
 // @Summary 修改User
@@ -164,27 +134,27 @@ var jwtKey = []byte("my_jwt_claims")
 // @Router /api/v1/user/{id} [put]
 // @Security Bearer
 func (e User) Update(c *gin.Context) {
-	req := dto.UserUpdateReq{}
-	s := service.User{}
-	err := e.MakeContext(c).
-		MakeOrm().
-		Bind(&req).
-		MakeService(&s.Service).
-		Errors
-	if err != nil {
-		e.Logger.Error(err)
-		e.Error(500, err, err.Error())
-		return
-	}
+    req := dto.UserUpdateReq{}
+    s := service.User{}
+    err := e.MakeContext(c).
+        MakeOrm().
+        Bind(&req).
+        MakeService(&s.Service).
+        Errors
+    if err != nil {
+        e.Logger.Error(err)
+        e.Error(500, err, err.Error())
+        return
+    }
 	req.SetUpdateBy(user.GetUserId(c))
 	p := actions.GetPermissionFromContext(c)
 
 	err = s.Update(&req, p)
 	if err != nil {
 		e.Error(500, err, fmt.Sprintf("修改User失败，\r\n失败信息 %s", err.Error()))
-		return
+        return
 	}
-	e.OK(req.GetId(), "修改成功")
+	e.OK( req.GetId(), "修改成功")
 }
 
 // Delete 删除User
@@ -196,18 +166,18 @@ func (e User) Update(c *gin.Context) {
 // @Router /api/v1/user [delete]
 // @Security Bearer
 func (e User) Delete(c *gin.Context) {
-	s := service.User{}
-	req := dto.UserDeleteReq{}
-	err := e.MakeContext(c).
-		MakeOrm().
-		Bind(&req).
-		MakeService(&s.Service).
-		Errors
-	if err != nil {
-		e.Logger.Error(err)
-		e.Error(500, err, err.Error())
-		return
-	}
+    s := service.User{}
+    req := dto.UserDeleteReq{}
+    err := e.MakeContext(c).
+        MakeOrm().
+        Bind(&req).
+        MakeService(&s.Service).
+        Errors
+    if err != nil {
+        e.Logger.Error(err)
+        e.Error(500, err, err.Error())
+        return
+    }
 
 	// req.SetUpdateBy(user.GetUserId(c))
 	p := actions.GetPermissionFromContext(c)
@@ -215,106 +185,7 @@ func (e User) Delete(c *gin.Context) {
 	err = s.Remove(&req, p)
 	if err != nil {
 		e.Error(500, err, fmt.Sprintf("删除User失败，\r\n失败信息 %s", err.Error()))
-		return
+        return
 	}
-	e.OK(req.GetId(), "删除成功")
-}
-
-func (e User) Login(c *gin.Context) {
-	s := service.User{}
-	req := dto.UserLoginReq{}
-	err := e.MakeContext(c).
-		MakeOrm().
-		Bind(&req, binding.Query).
-		MakeService(&s.Service).
-		Errors
-	if err != nil {
-		e.Logger.Error(err)
-		e.Error(500, err, err.Error())
-		return
-	}
-
-	data, err := s.Login(&req)
-	if err != nil {
-		e.Error(500, err, fmt.Sprintf("登录，\r\n失败信息 %s", err.Error()))
-		return
-	}
-
-	//生成token  设置过期时间为1小时
-	expirationTime := time.Now().Add(24 * time.Hour)
-
-	// 创建JWT的声明
-	claims := &jwt.StandardClaims{
-		ExpiresAt: expirationTime.Unix(),
-		IssuedAt:  time.Now().Unix(),
-		Subject:   gconv.String(data.GetId()),
-	}
-
-	// 创建JWT并设置声明
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-
-	// 使用密钥签名JWT
-	tokenString, _ := token.SignedString(jwtKey)
-
-	e.OK(gin.H{
-		"result": data,
-		"token":  tokenString,
-	}, "登录成功")
-}
-
-func (e User) Upload(c *gin.Context) {
-	if e.MakeContext(c).MakeOrm().Errors != nil {
-		c.String(http.StatusInternalServerError, "orm error")
-	}
-
-	file, header, err := c.Request.FormFile("image")
-	if err != nil {
-		c.String(http.StatusBadRequest, "Bad request")
-		return
-	}
-	defer file.Close()
-
-	// 创建目标文件
-	dir := "/var/image/"
-	if config.ApplicationConfig.Mode == "dev" {
-		dir = "D:/images/"
-	}
-	out, err := os.Create(dir + header.Filename)
-	if err != nil {
-		c.String(http.StatusInternalServerError, "Failed to create file")
-		return
-	}
-	defer out.Close()
-
-	// 将上传的文件内容复制到目标文件
-	_, err = io.Copy(out, file)
-	if err != nil {
-		c.String(http.StatusInternalServerError, "Failed to save file")
-		return
-	}
-
-	// 将文件名进行 URL 编码
-	filename := url.QueryEscape(header.Filename)
-
-	ip := "139.159.234.134"
-	if config.ApplicationConfig.Mode == "dev" {
-		ip = "127.0.0.1"
-	}
-	url := fmt.Sprintf("http://%s:8888/images/%s", ip, filename)
-
-	// 从请求中读取上传的文件
-	get := c.Query("type")
-	if get == "1" {
-		//用户imgae图片上车
-		s := c.Query("userId")
-
-		e.Orm.Model(&models.User{}).Where("id=?", s).Updates(map[string]interface{}{
-			"image": url,
-		})
-
-	}
-
-	c.JSON(http.StatusOK, gin.H{
-		"url": url,
-	})
+	e.OK( req.GetId(), "删除成功")
 }

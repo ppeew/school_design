@@ -42,7 +42,7 @@ func InitRouter() {
 
 	// 同步表结构
 	orm := sdk.Runtime.GetDbByKey("*")
-	if err := orm.AutoMigrate(&models.Comments{}, &models.User{}, &models.Blogs{}, &models.Collects{}, &models.Message{}); err != nil {
+	if err := orm.AutoMigrate(&models.Comments2{}, &models.User2{}, &models.Blogs{}, &models.Collects{}, &models.Message{}); err != nil {
 		fmt.Println(err)
 	}
 }

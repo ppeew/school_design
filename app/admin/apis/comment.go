@@ -16,22 +16,22 @@ import (
 	"go-admin/common/actions"
 )
 
-type Comments struct {
+type Comments2 struct {
 	api.Api
 }
 
 // GetPage 获取Comments列表
 // @Summary 获取Comments列表
 // @Description 获取Comments列表
-// @Tags Comments
+// @Tags Comments2
 // @Param pageSize query int false "页条数"
 // @Param pageIndex query int false "页码"
-// @Success 200 {object} response.Response{data=response.Page{list=[]models.Comments}} "{"code": 200, "data": [...]}"
+// @Success 200 {object} response.Response{data=response.Page{list=[]models.Comments2}} "{"code": 200, "data": [...]}"
 // @Router /api/v1/comments [get]
 // @Security Bearer
-func (e Comments) GetPage(c *gin.Context) {
-	req := dto.CommentsGetPageReq{}
-	s := service.Comments{}
+func (e Comments2) GetPage(c *gin.Context) {
+	req := dto.CommentsGetPageReq2{}
+	s := service.Comments2{}
 	err := e.MakeContext(c).
 		MakeOrm().
 		Bind(&req).
@@ -44,7 +44,7 @@ func (e Comments) GetPage(c *gin.Context) {
 	}
 
 	p := actions.GetPermissionFromContext(c)
-	list := make([]models.Comments, 0)
+	list := make([]models.Comments2, 0)
 	var count int64
 
 	err = s.GetPage(&req, p, &list, &count)
@@ -74,16 +74,16 @@ func (e Comments) GetPage(c *gin.Context) {
 
 	ret := make([]aaa, 0)
 	for _, comments := range list {
-		user := new(models.User)
-		e.Orm.Model(&models.User{}).Where("id=?", comments.UserId).First(user)
+		user := new(models.User2)
+		e.Orm.Model(&models.User2{}).Where("id=?", comments.UserId).First(user)
 
 		commentResp := make([]bbb, 0)
 		//查询该评论对应的回复
-		c2 := make([]models.Comments, 0)
-		e.Orm.Model(&models.Comments{}).Where("blog_id=?", req.BlogID).Where("target_id=?", comments.Id).Find(&c2)
+		c2 := make([]models.Comments2, 0)
+		e.Orm.Model(&models.Comments2{}).Where("blog_id=?", req.BlogID).Where("target_id=?", comments.Id).Find(&c2)
 		for _, m := range c2 {
-			user2 := new(models.User)
-			e.Orm.Model(&models.User{}).Where("id=?", m.UserId).First(user2)
+			user2 := new(models.User2)
+			e.Orm.Model(&models.User2{}).Where("id=?", m.UserId).First(user2)
 			commentResp = append(commentResp, bbb{
 				SecCommentUserName:      user2.Username,
 				SecCommentUserAvatarUrl: user2.Image,
@@ -109,14 +109,14 @@ func (e Comments) GetPage(c *gin.Context) {
 // Get 获取Comments
 // @Summary 获取Comments
 // @Description 获取Comments
-// @Tags Comments
+// @Tags Comments2
 // @Param id path int false "id"
-// @Success 200 {object} response.Response{data=models.Comments} "{"code": 200, "data": [...]}"
+// @Success 200 {object} response.Response{data=models.Comments2} "{"code": 200, "data": [...]}"
 // @Router /api/v1/comments/{id} [get]
 // @Security Bearer
-func (e Comments) Get(c *gin.Context) {
-	req := dto.CommentsGetReq{}
-	s := service.Comments{}
+func (e Comments2) Get(c *gin.Context) {
+	req := dto.CommentsGetReq2{}
+	s := service.Comments2{}
 	err := e.MakeContext(c).
 		MakeOrm().
 		Bind(&req).
@@ -127,7 +127,7 @@ func (e Comments) Get(c *gin.Context) {
 		e.Error(500, err, err.Error())
 		return
 	}
-	var object models.Comments
+	var object models.Comments2
 
 	p := actions.GetPermissionFromContext(c)
 	err = s.Get(&req, p, &object)
@@ -142,16 +142,16 @@ func (e Comments) Get(c *gin.Context) {
 // Insert 创建Comments
 // @Summary 创建Comments
 // @Description 创建Comments
-// @Tags Comments
+// @Tags Comments2
 // @Accept application/json
 // @Product application/json
-// @Param data body dto.CommentsInsertReq true "data"
+// @Param data body dto.CommentsInsertReq2 true "data"
 // @Success 200 {object} response.Response	"{"code": 200, "message": "添加成功"}"
 // @Router /api/v1/comments [post]
 // @Security Bearer
-func (e Comments) Insert(c *gin.Context) {
-	req := dto.CommentsInsertReq{}
-	s := service.Comments{}
+func (e Comments2) Insert(c *gin.Context) {
+	req := dto.CommentsInsertReq2{}
+	s := service.Comments2{}
 	err := e.MakeContext(c).
 		MakeOrm().
 		Bind(&req).
@@ -175,7 +175,7 @@ func (e Comments) Insert(c *gin.Context) {
 	if req.TargetId == "0" {
 		blog := models.Blogs{}
 		e.Orm.Where("id=?", req.BlogId).First(&blog)
-		u := new(models.User)
+		u := new(models.User2)
 		e.Orm.Where("username=?", blog.Username).First(u)
 		me.UserID = u.Id
 	} else {
@@ -184,7 +184,7 @@ func (e Comments) Insert(c *gin.Context) {
 	me.Type = 3
 	me.NoticeStatus = 0
 
-	u := new(models.User)
+	u := new(models.User2)
 	e.Orm.Where("id=?", req.UserId).First(u)
 	me.Content = fmt.Sprintf("%s对你说：%s", u.Username, req.Content)
 
@@ -196,17 +196,17 @@ func (e Comments) Insert(c *gin.Context) {
 // Update 修改Comments
 // @Summary 修改Comments
 // @Description 修改Comments
-// @Tags Comments
+// @Tags Comments2
 // @Accept application/json
 // @Product application/json
 // @Param id path int true "id"
-// @Param data body dto.CommentsUpdateReq true "body"
+// @Param data body dto.CommentsUpdateReq2 true "body"
 // @Success 200 {object} response.Response	"{"code": 200, "message": "修改成功"}"
 // @Router /api/v1/comments/{id} [put]
 // @Security Bearer
-func (e Comments) Update(c *gin.Context) {
-	req := dto.CommentsUpdateReq{}
-	s := service.Comments{}
+func (e Comments2) Update(c *gin.Context) {
+	req := dto.CommentsUpdateReq2{}
+	s := service.Comments2{}
 	err := e.MakeContext(c).
 		MakeOrm().
 		Bind(&req).
@@ -231,14 +231,14 @@ func (e Comments) Update(c *gin.Context) {
 // Delete 删除Comments
 // @Summary 删除Comments
 // @Description 删除Comments
-// @Tags Comments
-// @Param data body dto.CommentsDeleteReq true "body"
+// @Tags Comments2
+// @Param data body dto.CommentsDeleteReq2 true "body"
 // @Success 200 {object} response.Response	"{"code": 200, "message": "删除成功"}"
 // @Router /api/v1/comments [delete]
 // @Security Bearer
-func (e Comments) Delete(c *gin.Context) {
-	s := service.Comments{}
-	req := dto.CommentsDeleteReq{}
+func (e Comments2) Delete(c *gin.Context) {
+	s := service.Comments2{}
+	req := dto.CommentsDeleteReq2{}
 	err := e.MakeContext(c).
 		MakeOrm().
 		Bind(&req).

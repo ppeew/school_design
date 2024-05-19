@@ -11,16 +11,16 @@ import (
 	"go-admin/common/actions"
 )
 
-type Comments struct {
+type Comments2 struct {
 	service.Service
 }
 
 // GetPage 获取Comments列表
-func (e *Comments) GetPage(c *dto.CommentsGetPageReq, p *actions.DataPermission, list *[]models.Comments, count *int64) error {
+func (e *Comments2) GetPage(c *dto.CommentsGetPageReq2, p *actions.DataPermission, list *[]models.Comments2, count *int64) error {
 	var err error
 
 	// 获取帖子ID的全部评论
-	err = e.Orm.Model(&models.Comments{}).Where("blog_id=?", c.BlogID).Where("target_id=?", 0).Find(list).Error
+	err = e.Orm.Model(&models.Comments2{}).Where("blog_id=?", c.BlogID).Where("target_id=?", 0).Find(list).Error
 	//err = e.Orm.Model(&data).
 	//Scopes(
 	//	cDto.MakeCondition(c.GetNeedSearch()),
@@ -37,8 +37,8 @@ func (e *Comments) GetPage(c *dto.CommentsGetPageReq, p *actions.DataPermission,
 }
 
 // Get 获取Comments对象
-func (e *Comments) Get(d *dto.CommentsGetReq, p *actions.DataPermission, model *models.Comments) error {
-	var data models.Comments
+func (e *Comments2) Get(d *dto.CommentsGetReq2, p *actions.DataPermission, model *models.Comments2) error {
+	var data models.Comments2
 
 	err := e.Orm.Model(&data).
 		Scopes(
@@ -58,9 +58,9 @@ func (e *Comments) Get(d *dto.CommentsGetReq, p *actions.DataPermission, model *
 }
 
 // Insert 创建Comments对象
-func (e *Comments) Insert(c *dto.CommentsInsertReq) error {
+func (e *Comments2) Insert(c *dto.CommentsInsertReq2) error {
 	var err error
-	var data models.Comments
+	var data models.Comments2
 	c.Generate(&data)
 	err = e.Orm.Create(&data).Error
 	if err != nil {
@@ -71,9 +71,9 @@ func (e *Comments) Insert(c *dto.CommentsInsertReq) error {
 }
 
 // Update 修改Comments对象
-func (e *Comments) Update(c *dto.CommentsUpdateReq, p *actions.DataPermission) error {
+func (e *Comments2) Update(c *dto.CommentsUpdateReq2, p *actions.DataPermission) error {
 	var err error
-	var data = models.Comments{}
+	var data = models.Comments2{}
 	e.Orm.Scopes(
 		actions.Permission(data.TableName(), p),
 	).First(&data, c.GetId())
@@ -91,8 +91,8 @@ func (e *Comments) Update(c *dto.CommentsUpdateReq, p *actions.DataPermission) e
 }
 
 // Remove 删除Comments
-func (e *Comments) Remove(d *dto.CommentsDeleteReq, p *actions.DataPermission) error {
-	var data models.Comments
+func (e *Comments2) Remove(d *dto.CommentsDeleteReq2, p *actions.DataPermission) error {
+	var data models.Comments2
 
 	db := e.Orm.Model(&data).
 		Scopes(

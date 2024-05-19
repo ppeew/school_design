@@ -6,13 +6,13 @@ import (
 	common "go-admin/common/models"
 )
 
-type CommentsGetPageReq struct {
+type CommentsGetPageReq2 struct {
 	BlogID         int `form:"blogId"`
 	dto.Pagination `search:"-"`
-	CommentsOrder
+	CommentsOrder2
 }
 
-type CommentsOrder struct {
+type CommentsOrder2 struct {
 	Id        string `form:"idOrder"  search:"type:order;column:id;table:comments"`
 	CreatedAt string `form:"createdAtOrder"  search:"type:order;column:created_at;table:comments"`
 	UpdatedAt string `form:"updatedAtOrder"  search:"type:order;column:updated_at;table:comments"`
@@ -22,11 +22,11 @@ type CommentsOrder struct {
 	TargetId  string `form:"targetIdOrder"  search:"type:order;column:target_id;table:comments"`
 }
 
-func (m *CommentsGetPageReq) GetNeedSearch() interface{} {
+func (m *CommentsGetPageReq2) GetNeedSearch() interface{} {
 	return *m
 }
 
-type CommentsInsertReq struct {
+type CommentsInsertReq2 struct {
 	Id       int    `json:"-" comment:"主键编码"` // 主键编码
 	BlogId   string `json:"blogId" comment:"对应的博客"`
 	UserId   string `json:"userId" comment:"评论者"`
@@ -35,7 +35,7 @@ type CommentsInsertReq struct {
 	common.ControlBy
 }
 
-func (s *CommentsInsertReq) Generate(model *models.Comments) {
+func (s *CommentsInsertReq2) Generate(model *models.Comments2) {
 	if s.Id == 0 {
 		model.Model = common.Model{Id: s.Id}
 	}
@@ -45,11 +45,11 @@ func (s *CommentsInsertReq) Generate(model *models.Comments) {
 	model.Content = s.Content
 }
 
-func (s *CommentsInsertReq) GetId() interface{} {
+func (s *CommentsInsertReq2) GetId() interface{} {
 	return s.Id
 }
 
-type CommentsUpdateReq struct {
+type CommentsUpdateReq2 struct {
 	Id       int    `uri:"id" comment:"主键编码"` // 主键编码
 	BlogId   string `json:"blogId" comment:"对应的博客"`
 	UserId   string `json:"userId" comment:"评论者"`
@@ -57,7 +57,7 @@ type CommentsUpdateReq struct {
 	common.ControlBy
 }
 
-func (s *CommentsUpdateReq) Generate(model *models.Comments) {
+func (s *CommentsUpdateReq2) Generate(model *models.Comments2) {
 	if s.Id == 0 {
 		model.Model = common.Model{Id: s.Id}
 	}
@@ -66,24 +66,24 @@ func (s *CommentsUpdateReq) Generate(model *models.Comments) {
 	model.TargetId = s.TargetId
 }
 
-func (s *CommentsUpdateReq) GetId() interface{} {
+func (s *CommentsUpdateReq2) GetId() interface{} {
 	return s.Id
 }
 
-// CommentsGetReq 功能获取请求参数
-type CommentsGetReq struct {
+// CommentsGetReq2 功能获取请求参数
+type CommentsGetReq2 struct {
 	Id int `uri:"id"`
 }
 
-func (s *CommentsGetReq) GetId() interface{} {
+func (s *CommentsGetReq2) GetId() interface{} {
 	return s.Id
 }
 
-// CommentsDeleteReq 功能删除请求参数
-type CommentsDeleteReq struct {
+// CommentsDeleteReq2 功能删除请求参数
+type CommentsDeleteReq2 struct {
 	Ids []int `json:"ids"`
 }
 
-func (s *CommentsDeleteReq) GetId() interface{} {
+func (s *CommentsDeleteReq2) GetId() interface{} {
 	return s.Ids
 }

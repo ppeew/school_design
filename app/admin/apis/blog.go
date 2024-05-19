@@ -16,7 +16,7 @@ import (
 	"go-admin/common/actions"
 )
 
-type Blogs struct {
+type Blogs2 struct {
 	api.Api
 }
 
@@ -29,9 +29,9 @@ type Blogs struct {
 // @Success 200 {object} response.Response{data=response.Page{list=[]models.Blogs}} "{"code": 200, "data": [...]}"
 // @Router /api/v1/blogs [get]
 // @Security Bearer
-func (e Blogs) GetPage(c *gin.Context) {
-	req := dto.BlogsGetPageReq{}
-	s := service.Blogs{}
+func (e Blogs2) GetPage(c *gin.Context) {
+	req := dto.Blogs2GetPageReq{}
+	s := service.Blogs2{}
 	err := e.MakeContext(c).
 		MakeOrm().
 		Bind(&req).
@@ -71,13 +71,13 @@ func (e Blogs) GetPage(c *gin.Context) {
 	ret := make([]resp, 0)
 	for _, blogs := range list {
 		var commentCount int64
-		e.Orm.Model(models.Comments{}).Where("blog_id=?", blogs.Id).Count(&commentCount)
+		e.Orm.Model(models.Comments2{}).Where("blog_id=?", blogs.Id).Count(&commentCount)
 
 		var collectCount int64
 		e.Orm.Model(models.Collects{}).Where("blog_id=?", blogs.Id).Count(&collectCount)
 
 		// 查询该username对应的id
-		us := new(models.User)
+		us := new(models.User2)
 		e.Orm.Where("username=?", blogs.Username).First(us)
 
 		re := resp{
@@ -108,7 +108,7 @@ func (e Blogs) GetPage(c *gin.Context) {
 // @Success 200 {object} response.Response{data=models.Blogs} "{"code": 200, "data": [...]}"
 // @Router /api/v1/blogs/{id} [get]
 // @Security Bearer
-func (e Blogs) Get(c *gin.Context) {
+func (e Blogs2) Get(c *gin.Context) {
 	req := dto.BlogsGetReq{}
 	s := service.Blogs{}
 	err := e.MakeContext(c).
@@ -143,7 +143,7 @@ func (e Blogs) Get(c *gin.Context) {
 // @Success 200 {object} response.Response	"{"code": 200, "message": "添加成功"}"
 // @Router /api/v1/blogs [post]
 // @Security Bearer
-func (e Blogs) Insert(c *gin.Context) {
+func (e Blogs2) Insert(c *gin.Context) {
 	req := dto.BlogsInsertReq{}
 	s := service.Blogs{}
 	err := e.MakeContext(c).
@@ -179,7 +179,7 @@ func (e Blogs) Insert(c *gin.Context) {
 // @Success 200 {object} response.Response	"{"code": 200, "message": "修改成功"}"
 // @Router /api/v1/blogs/{id} [put]
 // @Security Bearer
-func (e Blogs) Update(c *gin.Context) {
+func (e Blogs2) Update(c *gin.Context) {
 	req := dto.BlogsUpdateReq{}
 	s := service.Blogs{}
 	err := e.MakeContext(c).
@@ -211,7 +211,7 @@ func (e Blogs) Update(c *gin.Context) {
 // @Success 200 {object} response.Response	"{"code": 200, "message": "删除成功"}"
 // @Router /api/v1/blogs [delete]
 // @Security Bearer
-func (e Blogs) Delete(c *gin.Context) {
+func (e Blogs2) Delete(c *gin.Context) {
 	s := service.Blogs{}
 	req := dto.BlogsDeleteReq{}
 	err := e.MakeContext(c).

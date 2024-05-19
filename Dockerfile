@@ -9,7 +9,7 @@ RUN apk add --no-cache tzdata
 ENV TZ Asia/Shanghai
 
 COPY ./main /main
-COPY ./config/settings.demo.yml /config/settings.yml
+COPY ./config/settings.yml /config/settings.yml
 COPY ./go-admin-db.db /go-admin-db.db
 EXPOSE 8000
 RUN  chmod +x /main
@@ -37,7 +37,7 @@ CMD ["/main","server","-c", "/config/settings.yml"]
 #
 #WORKDIR /app
 #COPY --from=builder /app/my_app /app/my_app
-#COPY --from=builder /app/config/settings.demo.yml /config/settings.yml
+#COPY --from=builder /app/config/settings.yml /config/settings.yml
 #COPY --from=builder /app/go-admin-db.db /go-admin-db.db
 #
 #ENTRYPOINT ["./my_app","server","-c", "/config/settings.yml"]

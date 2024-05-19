@@ -13,12 +13,12 @@ import (
 	cDto "go-admin/common/dto"
 )
 
-type Blogs struct {
+type Blogs2 struct {
 	service.Service
 }
 
 // GetPage 获取Blogs列表
-func (e *Blogs) GetPage(c *dto.BlogsGetPageReq, p *actions.DataPermission, list *[]models.Blogs, count *int64) error {
+func (e *Blogs2) GetPage(c *dto.Blogs2GetPageReq, p *actions.DataPermission, list *[]models.Blogs, count *int64) error {
 	var err error
 	var data models.Blogs
 
@@ -38,7 +38,7 @@ func (e *Blogs) GetPage(c *dto.BlogsGetPageReq, p *actions.DataPermission, list 
 }
 
 // Get 获取Blogs对象
-func (e *Blogs) Get(d *dto.BlogsGetReq, p *actions.DataPermission, model *models.Blogs) error {
+func (e *Blogs2) Get(d *dto.Blogs2GetReq, p *actions.DataPermission, model *models.Blogs) error {
 	var data models.Blogs
 
 	err := e.Orm.Model(&data).
@@ -59,7 +59,7 @@ func (e *Blogs) Get(d *dto.BlogsGetReq, p *actions.DataPermission, model *models
 }
 
 // Insert 创建Blogs对象
-func (e *Blogs) Insert(c *dto.BlogsInsertReq) error {
+func (e *Blogs2) Insert(c *dto.Blogs2InsertReq) error {
 	var err error
 	var data models.Blogs
 	c.Generate(&data)
@@ -72,7 +72,7 @@ func (e *Blogs) Insert(c *dto.BlogsInsertReq) error {
 }
 
 // Update 修改Blogs对象
-func (e *Blogs) Update(c *dto.BlogsUpdateReq, p *actions.DataPermission) error {
+func (e *Blogs2) Update(c *dto.Blogs2UpdateReq, p *actions.DataPermission) error {
 	var err error
 	var data = models.Blogs{}
 	e.Orm.Scopes(
@@ -99,7 +99,7 @@ func (e *Blogs) Update(c *dto.BlogsUpdateReq, p *actions.DataPermission) error {
 }
 
 // Remove 删除Blogs
-func (e *Blogs) Remove(d *dto.BlogsDeleteReq, p *actions.DataPermission) error {
+func (e *Blogs2) Remove(d *dto.Blogs2DeleteReq, p *actions.DataPermission) error {
 	var data models.Blogs
 
 	db := e.Orm.Model(&data).

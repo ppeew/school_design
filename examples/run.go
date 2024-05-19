@@ -25,7 +25,7 @@ func main() {
 	sdk.Runtime.SetCasbin("*", syncEnforce)
 
 	// 生成Model
-	db.AutoMigrate(&models.Blogs{}, &models.Collects{}, &models.Comments{})
+	db.AutoMigrate(&models.Blogs{}, &models.Collects{}, &models.Comments2{})
 
 	data := models.Blogs{
 		Model:    cModels.Model{},

@@ -65,12 +65,12 @@ func (e Collects) GetPage(c *gin.Context) {
 
 	resp := make([]ss, 0)
 	for _, collects := range list {
-		u := new(models.User)
+		u := new(models.User2)
 		e.Orm.Where("id=?", collects.UserId).First(u)
 		blog := new(models.Blogs)
 		e.Orm.Where("id=?", collects.BlogId).First(blog)
 		var commentTotal int64
-		e.Orm.Model(models.Comments{}).Where("blog_id=?", collects.BlogId).Count(&commentTotal)
+		e.Orm.Model(models.Comments2{}).Where("blog_id=?", collects.BlogId).Count(&commentTotal)
 		var collectTotal int64
 		e.Orm.Model(models.Collects{}).Where("blog_id=?", collects.BlogId).Count(&collectTotal)
 		if u.Image == "" {
@@ -160,12 +160,12 @@ func (e Collects) Insert(c *gin.Context) {
 	me := models.Message{}
 	me.Type = 2
 	me.NoticeStatus = 0
-	u := new(models.User)
+	u := new(models.User2)
 	e.Orm.Where("id=?", req.UserId).First(u)
 	bl := new(models.Blogs)
 	e.Orm.Where("id=?", req.BlogId).First(bl)
 	me.Content = fmt.Sprintf("%s收藏了你的博客：%s", u.Username, bl.Msg)
-	u2 := new(models.User)
+	u2 := new(models.User2)
 	e.Orm.Where("username=?", bl.Username).First(u2)
 	me.UserID = u2.Id
 	e.Orm.Create(&me)

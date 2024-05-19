@@ -6,13 +6,13 @@ import (
 )
 
 func init() {
-	routerNoCheckRole = append(routerNoCheckRole, registerCommentsRouter)
+	routerNoCheckRole = append(routerNoCheckRole, registerCommentsRouter2)
 }
 
 // registerBlogsRouter
-func registerCommentsRouter(v1 *gin.RouterGroup) {
-	api := apis.Comments{}
-	r := v1.Group("/comments")
+func registerCommentsRouter2(v1 *gin.RouterGroup) {
+	api := apis.Comments2{}
+	r := v1.Group("/comments2")
 	{
 		r.GET("", api.GetPage)
 		r.GET("/:id", api.Get)
